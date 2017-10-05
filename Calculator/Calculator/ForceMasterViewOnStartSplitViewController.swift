@@ -21,10 +21,10 @@
 
 import UIKit
 
+class ForceMasterViewOnStartSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
 /*
  * commented this code out, as I found a more appropriate way here:  https://useyourloaf.com/blog/split-view-controller-display-modes/
  *
-class ForceMasterViewOnStartSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
 
     override func viewDidLoad() {
         self.delegate = self
@@ -34,5 +34,6 @@ class ForceMasterViewOnStartSplitViewController: UISplitViewController, UISplitV
     @objc(splitViewController:collapseSecondaryViewController:ontoPrimaryViewController:) func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         return true
     }
+*/
 }
- */
+

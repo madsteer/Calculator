@@ -95,6 +95,7 @@ class CalculatorViewController: UIViewController {
         
         brain.performOperation(sender.currentTitle!)
         updateLogDisplay()
+        // print("brain is \(brain)") // uncomment this if CalculatorBrain implements CustomStringConvertible protocol
         displayValue = brain.result
         graphButton.isEnabled = graphIsPossible
     }
