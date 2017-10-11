@@ -15,13 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // got this from https://useyourloaf.com/blog/split-view-controller-display-modes/ to override detail view coming up on launch start
-        if let splitViewController = self.window?.rootViewController as? UISplitViewController {
-            splitViewController.preferredDisplayMode = .allVisible
-            if let navController = splitViewController.viewControllers.last as? UINavigationController {
-                navController.topViewController?.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-            }
-        }
         return true
     }
 

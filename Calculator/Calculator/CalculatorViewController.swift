@@ -8,18 +8,17 @@
 
 import UIKit
 
-extension CalculatorViewController: UISplitViewControllerDelegate {
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        return collapseDetailViewController
-    }
-}
-class CalculatorViewController: UIViewController {
-    fileprivate var collapseDetailViewController = true
+class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
     
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var logDisplay: UILabel!
     
     var userIsTyping = false
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.splitViewController?.delegate = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +27,6 @@ class CalculatorViewController: UIViewController {
 //            self?.display.textColor = UIColor.green // requires the "weak" above
             return sqrt($0)
         }
-        
-        splitViewController?.delegate = self
     }
     
     var decimalPointPressed = false
@@ -59,7 +56,6 @@ class CalculatorViewController: UIViewController {
                 decimalPointPressed = true
             }
         }
-        // print("\(brain)") // if brain implements CustomStringConvertible protocol
     }
     
     @IBAction func clearDisplay(_ sender: UIButton) {
@@ -95,18 +91,24 @@ class CalculatorViewController: UIViewController {
         
         brain.performOperation(sender.currentTitle!)
         updateLogDisplay()
-        // print("brain is \(brain)") // uncomment this if CalculatorBrain implements CustomStringConvertible protocol
         displayValue = brain.result
         graphButton.isEnabled = graphIsPossible
+//        print("\(brain)") // if brain implements CustomStringConvertible protocol
     }
     
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        if primaryViewController.contents == self {
+            if let ivc = secondaryViewController.contents as? TwoDimensionalGraphingViewController, ivc.graphResult == nil {
+                return true
+            }
+        }
+        return false
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var destinationViewController = segue.destination
         if let navigationController = destinationViewController as? UINavigationController {
             destinationViewController = navigationController.visibleViewController ?? destinationViewController
-            
-            destinationViewController.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-            destinationViewController.navigationItem.leftItemsSupplementBackButton = true
         }
         
         if let identifier = segue.identifier {
@@ -132,3 +134,11 @@ class CalculatorViewController: UIViewController {
     }
 }
 
+extension UIViewController {
+    var contents: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController ?? self
+        }
+        return self
+    }
+}
