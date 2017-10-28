@@ -99,6 +99,26 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         // using the UITableViewDelegate method heightForRowAt
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        var destinationVC = segue.destination
+//        if let navVC = destinationVC as? UINavigationController {
+//            destinationVC = navVC.visibleViewController ?? destinationVC
+//        }
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "tweetDetailSegue":
+                if let cell = sender as? TweetTableViewCell,
+                    let indexPath = tableView.indexPath(for: cell),
+                    let seguedToMvc = segue.destination as? TweetDetailTableViewController {
+//                    let seguedToMvc = destinationVC as? TweetDetailTableViewController {
+                    seguedToMvc.tweet = tweets[indexPath.section][indexPath.row]
+                }
+            default: break
+            }
+        }
+    }
+
     // MARK: Search Text Field
 
     // set ourself to be the UITextFieldDelegate

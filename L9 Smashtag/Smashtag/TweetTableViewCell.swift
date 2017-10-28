@@ -64,12 +64,17 @@ class TweetTableViewCell: UITableViewCell {
         tweetUserLabel?.text = tweet?.user.description
         
         if let profileImageURL = tweet?.user.profileImageURL {
-            // FIXME: blocks main thread
-            if let imageData = try? Data(contentsOf: profileImageURL) {
-                tweetProfileImageView?.image = UIImage(data: imageData)
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let imageData = try? Data(contentsOf: profileImageURL) {
+                    DispatchQueue.main.async {
+                        self.tweetProfileImageView?.image = UIImage(data: imageData)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.tweetProfileImageView?.image = nil
+                    }
+                }
             }
-        } else {
-            tweetProfileImageView?.image = nil
         }
         
         if let created = tweet?.created {
@@ -84,25 +89,6 @@ class TweetTableViewCell: UITableViewCell {
             tweetCreatedLabel?.text = nil
         }
     }
-    
-    
-//    private func findTextToBeautify(input: UILabel) -> UILabel {
-//        let result = input
-//        if let inputText = input.text {
-//            let urls = inputText.findURLs()
-//            for url in urls {
-//                result.colorTweet(text: inputText, coloredText: url, color: .blue)
-//            }
-//            
-////            let hashtags = inputText.extractRegex(using: "(#[A-za-z0-9]*)")
-//            let hashtags = inputText.extractRegex(using: "#\\w+")
-//            for hashtag in hashtags {
-//                result.colorTweet(text: inputText, coloredText: hashtag, color: .red)
-//            }
-//        }
-//        return result
-//    }
 }
-// "Sara Van Belle: In search of a global health community of “kick-ass” women https://t.co/OLMifLXBXg #Stanford"
 
 // this helped on lldb printing issue: https://forums.developer.apple.com/thread/84400#251131
