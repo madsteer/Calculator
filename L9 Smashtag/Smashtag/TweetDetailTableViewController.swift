@@ -21,6 +21,8 @@ class TweetDetailTableViewController: UITableViewController {
         }
     }
     
+    private var rowHeights: [Int:CGFloat] = [:]
+    
     private var mentionSections: [MentionSection]?
     
     private struct MentionSection {
@@ -52,22 +54,17 @@ class TweetDetailTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        // MARK: is this right?
         return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         switch section {
-        case 1:
+        case 0:
             return tweet?.media.count ?? 0
-        case 2:
+        case 1:
             return tweet?.hashtags.count ?? 0
-        case 3:
+        case 2:
             return tweet?.urls.count ?? 0
         default: break
         }
@@ -106,23 +103,16 @@ class TweetDetailTableViewController: UITableViewController {
         return mentionSections
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath) {
-//
-//    }
-    
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cellIdentifier = "User"
         
         switch indexPath.section {
-        case 1:
+        case 0:
             cellIdentifier = "Image"
-        case 2:
+        case 1:
             cellIdentifier = "Hashtag"
-        case 3:
+        case 2:
             cellIdentifier = "Url"
-            //        case 4:
-        //            cellIdentifier = "User"
         default:
             break;
         }
@@ -133,20 +123,68 @@ class TweetDetailTableViewController: UITableViewController {
                 if let urlContents = try? Data(contentsOf: item.url) {
                     DispatchQueue.main.async {
                         imageCell.urlContents = urlContents
+                        if let image = UIImage(data: urlContents) {
+                            tableView.beginUpdates()
+                            self.rowHeights[indexPath.row] = self.view.frame.width * (image.size.height / image.size.width)
+                            tableView.endUpdates()
+                        }
                     }
                 }
             }
+            
         } else if let hashtagCell = cell as? MentionHashtagTableViewCell, let item = tweet?.hashtags[indexPath.row] {
             hashtagCell.hashtag = item.keyword
+            
         } else if let urlCell = cell as? MentionUrlTableViewCell, let item = tweet?.urls[indexPath.row] {
             urlCell.url = item.keyword
+            
         } else if let userCell = cell as? MentionUserTableViewCell, let item = tweet?.userMentions[indexPath.row] {
-            userCell.user = item.keyword
+            userCell.user = item.keyword            
         }
         
         return cell
     }
-
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            if let height = rowHeights[indexPath.row] {
+                return height
+            } else {
+                return UITableViewAutomaticDimension
+            }
+        default:
+            return UITableViewAutomaticDimension
+        }
+    }
+    
+    private func hasMultipleRows(_ tableview: UITableView, in section: Int) -> Bool {
+        return tableView(tableview, numberOfRowsInSection: section) > 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return determineSection(header: "Image", for: self.tableView(tableView, numberOfRowsInSection: section))
+        case 1:
+            return determineSection(header: "Hashtag", for: self.tableView(tableView, numberOfRowsInSection: section))
+        case 2:
+            return determineSection(header: "URL", for: self.tableView(tableView, numberOfRowsInSection: section))
+        default:
+            return determineSection(header: "User", for: self.tableView(tableView, numberOfRowsInSection: section))
+        }
+    }
+    
+    private func determineSection(header: String, for numberOfRows: Int) -> String? {
+        switch numberOfRows {
+        case 0:
+            return nil
+        case 1:
+            return header
+        default:
+            return header + "s"
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.

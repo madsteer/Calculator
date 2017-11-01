@@ -9,36 +9,12 @@
 import UIKit
 import Twitter
 
-extension UILabel {
-    func colorTweet() {
-        guard let splitText = self.text?.components(separatedBy: " ") else {
-            return
+private extension NSMutableAttributedString {
+    func setMensionsColor(_ mensions: [Twitter.Mention], color: UIColor) {
+        for mension in mensions {
+            addAttribute(NSForegroundColorAttributeName, value: color,
+                         range: mension.nsrange)
         }
-        
-        var attributedStrings: [NSMutableAttributedString] = []
-        for text in splitText {
-            var color = UIColor.black
-            if text.hasPrefix("#") {
-                color = .red
-            } else if text.hasPrefix("http") {
-                color = .blue
-            }
-            let yourAttributes = [NSForegroundColorAttributeName: color]
-            attributedStrings.append(NSMutableAttributedString(string: text, attributes: yourAttributes))
-            
-        }
-        
-        let attributedSpace = NSMutableAttributedString(string: " ", attributes: [NSForegroundColorAttributeName: UIColor.black])
-        let combinedAttributedString = NSMutableAttributedString()
-        
-        for index in 0...attributedStrings.count-1 {
-            combinedAttributedString.append(attributedStrings[index])
-            if index < attributedStrings.count - 1 {
-                combinedAttributedString.append(attributedSpace)
-            }
-        }
-
-        self.attributedText = combinedAttributedString
     }
 }
 
@@ -58,9 +34,7 @@ class TweetTableViewCell: UITableViewCell {
     // whenever our public API tweet is set
     // we just update our outlets using this method
     private func updateUI() {
-        tweetTextLabel?.text = tweet?.text
-        tweetTextLabel?.colorTweet()
-//        tweetTextLabel = findTextToBeautify(input: tweetTextLabel)
+        tweetTextLabel?.attributedText = setTextLabel(tweet)
         tweetUserLabel?.text = tweet?.user.description
         
         if let profileImageURL = tweet?.user.profileImageURL {
@@ -88,6 +62,20 @@ class TweetTableViewCell: UITableViewCell {
         } else {
             tweetCreatedLabel?.text = nil
         }
+    }
+    
+    private func setTextLabel(_ tweet: Twitter.Tweet?) -> NSMutableAttributedString {
+        guard let tweet = tweet else {return NSMutableAttributedString(string: "")}
+        var tweetText:String = tweet.text
+        for _ in tweet.media {tweetText += " 📷"}
+        
+        let attributedText = NSMutableAttributedString(string: tweetText)
+        
+        attributedText.setMensionsColor(tweet.hashtags, color: .red)
+        attributedText.setMensionsColor(tweet.urls, color: .blue)
+        attributedText.setMensionsColor(tweet.userMentions, color: .orange)
+        
+        return attributedText
     }
 }
 
