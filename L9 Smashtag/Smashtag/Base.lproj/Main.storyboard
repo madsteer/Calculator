@@ -146,14 +146,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GCZ-ej-FbI">
-                                            <rect key="frame" x="40" y="20" width="244" height="60"/>
+                                            <rect key="frame" x="8" y="0.0" width="359" height="80"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="GCZ-ej-FbI" secondAttribute="trailing" constant="83" id="Mvg-K5-tjR"/>
-                                        <constraint firstItem="GCZ-ej-FbI" firstAttribute="leading" secondItem="fLq-vl-oy2" secondAttribute="leadingMargin" constant="32" id="phk-9i-mvf"/>
-                                        <constraint firstItem="GCZ-ej-FbI" firstAttribute="top" secondItem="fLq-vl-oy2" secondAttribute="topMargin" constant="12" id="rqf-uo-8UI"/>
-                                        <constraint firstItem="GCZ-ej-FbI" firstAttribute="centerY" secondItem="fLq-vl-oy2" secondAttribute="centerY" id="vgd-mO-Ewq"/>
+                                        <constraint firstItem="GCZ-ej-FbI" firstAttribute="top" secondItem="fLq-vl-oy2" secondAttribute="top" id="A2m-V2-hGb"/>
+                                        <constraint firstItem="GCZ-ej-FbI" firstAttribute="leading" secondItem="fLq-vl-oy2" secondAttribute="leadingMargin" id="WAL-K6-YEe"/>
+                                        <constraint firstItem="GCZ-ej-FbI" firstAttribute="trailing" secondItem="fLq-vl-oy2" secondAttribute="trailingMargin" id="yP4-ga-a2E"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="GCZ-ej-FbI" secondAttribute="bottom" constant="11.5" id="zl7-Zj-2tG"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -218,17 +218,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Users" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFJ-c0-fJK">
-                                            <rect key="frame" x="20" y="20" width="335" height="66"/>
+                                            <rect key="frame" x="20" y="20" width="335" height="80"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="centerY" secondItem="EOf-rN-1gQ" secondAttribute="centerY" id="5IC-0C-ebO"/>
-                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="leading" secondItem="EOf-rN-1gQ" secondAttribute="leadingMargin" constant="12" id="H6X-2i-SsV"/>
-                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="top" secondItem="EOf-rN-1gQ" secondAttribute="topMargin" constant="12" id="r6V-Bc-dze"/>
-                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="centerX" secondItem="EOf-rN-1gQ" secondAttribute="centerX" id="v6C-ON-9Ik"/>
+                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="centerX" secondItem="EOf-rN-1gQ" secondAttribute="centerX" id="GSu-G4-t7I"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="WFJ-c0-fJK" secondAttribute="bottom" constant="-2.5" id="Lex-EK-rm8"/>
+                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="leading" secondItem="EOf-rN-1gQ" secondAttribute="leadingMargin" constant="12" id="v7K-sZ-1hg"/>
+                                        <constraint firstItem="WFJ-c0-fJK" firstAttribute="top" secondItem="EOf-rN-1gQ" secondAttribute="topMargin" constant="12" id="ycf-sQ-8rY"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
