@@ -41,7 +41,7 @@ class TweetDetailTableViewController: UITableViewController {
         case URL = "URL"
         case User = "User"
         
-        static let order = [Image, Hashtag, URL, User]
+        static let fore /* yes it's misspelled, but "for" is a keyword */ = [Image, Hashtag, URL, User]
     }
     
     private struct Storyboard {
@@ -118,7 +118,7 @@ class TweetDetailTableViewController: UITableViewController {
                     let indexPath = tableView.indexPath(for: cell),
                     let seguedToMvc = segue.destination as? TweetTableViewController {
                     
-                    let mentionSectionKey = MentionTypeKey.order[indexPath.section]
+                    let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
                     switch mentionSectionKey {
                     case .Hashtag, .User:
                         if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
@@ -139,11 +139,11 @@ class TweetDetailTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (mentionSections[MentionTypeKey.order[section]]?.mentions.count)!
+        return (mentionSections[MentionTypeKey.fore[section]]?.mentions.count)!
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let mention = (mentionSections[MentionTypeKey.order[indexPath.section]]?.mentions[indexPath.row])!
+        let mention = (mentionSections[MentionTypeKey.fore[indexPath.section]]?.mentions[indexPath.row])!
         
         switch mention {
         case .keyword(let keyword):
@@ -187,16 +187,17 @@ class TweetDetailTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return determineSection(header: "Image", for: self.tableView(tableView, numberOfRowsInSection: section))
-        case 1:
-            return determineSection(header: "Hashtag", for: self.tableView(tableView, numberOfRowsInSection: section))
-        case 2:
-            return determineSection(header: "URL", for: self.tableView(tableView, numberOfRowsInSection: section))
-        default:
-            return determineSection(header: "User", for: self.tableView(tableView, numberOfRowsInSection: section))
-        }
+        return determineSection(header: MentionTypeKey.fore[section].rawValue, for: self.tableView(tableView, numberOfRowsInSection: section))
+//        switch section {
+//        case 0:
+//            return determineSection(header: "Image", for: self.tableView(tableView, numberOfRowsInSection: section))
+//        case 1:
+//            return determineSection(header: "Hashtag", for: self.tableView(tableView, numberOfRowsInSection: section))
+//        case 2:
+//            return determineSection(header: "URL", for: self.tableView(tableView, numberOfRowsInSection: section))
+//        default:
+//            return determineSection(header: "User", for: self.tableView(tableView, numberOfRowsInSection: section))
+//        }
     }
     
     private func determineSection(header: String, for numberOfRows: Int) -> String? {
