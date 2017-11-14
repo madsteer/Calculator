@@ -1,5 +1,5 @@
 //
-//  MentionHashtagTableViewCell.swift
+//  MentionKeywordTableViewCell.swift
 //  Smashtag
 //
 //  Created by Cory Steers on 10/20/17.
@@ -8,15 +8,16 @@
 
 import UIKit
 
-class MentionHashtagTableViewCell: UITableViewCell {
+class MentionKeywordTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var tweetHashtag: UILabel!
+    @IBOutlet weak var tweetKeyword: UILabel!
     
-    var hashtag: String? { didSet { updateUI() } }
+    
+    var keyword: String? { didSet { updateUI() } }
     
     private func updateUI() {
-        if let hashtag = hashtag {
-            tweetHashtag.text = hashtag
+        if let keyword = keyword {
+            tweetKeyword.text = keyword
         }
     }
     

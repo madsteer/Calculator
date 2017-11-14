@@ -148,19 +148,25 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GCZ-ej-FbI">
                                             <rect key="frame" x="16" y="0.0" width="343" height="77.5"/>
                                         </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AGn-lG-ZAw">
+                                            <rect key="frame" x="177" y="40" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="GCZ-ej-FbI" firstAttribute="top" secondItem="fLq-vl-oy2" secondAttribute="top" id="A2m-V2-hGb"/>
+                                        <constraint firstItem="AGn-lG-ZAw" firstAttribute="centerY" secondItem="fLq-vl-oy2" secondAttribute="centerY" id="Kjf-EB-gdD"/>
+                                        <constraint firstItem="AGn-lG-ZAw" firstAttribute="centerX" secondItem="fLq-vl-oy2" secondAttribute="centerX" id="SK7-1K-pNi"/>
                                         <constraint firstItem="GCZ-ej-FbI" firstAttribute="leading" secondItem="fLq-vl-oy2" secondAttribute="leadingMargin" id="WAL-K6-YEe"/>
                                         <constraint firstItem="GCZ-ej-FbI" firstAttribute="trailing" secondItem="fLq-vl-oy2" secondAttribute="trailingMargin" id="yP4-ga-a2E"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="GCZ-ej-FbI" secondAttribute="bottom" constant="11.5" id="zl7-Zj-2tG"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="spinner" destination="AGn-lG-ZAw" id="mNB-F7-py7"/>
                                     <outlet property="tweetImage" destination="GCZ-ej-FbI" id="Fcr-eq-nZa"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Keyword" rowHeight="92" id="xlT-Pd-MRW" customClass="MentionHashtagTableViewCell" customModule="Smashtag" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Keyword" rowHeight="92" id="xlT-Pd-MRW" customClass="MentionKeywordTableViewCell" customModule="Smashtag" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="128" width="375" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xlT-Pd-MRW" id="Iup-tj-33X">
@@ -182,7 +188,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="tweetHashtag" destination="8ed-uL-NqM" id="28g-Le-AG7"/>
+                                    <outlet property="tweetKeyword" destination="8ed-uL-NqM" id="det-0G-OCA"/>
                                     <segue destination="qGf-I8-8L8" kind="show" identifier="newKeywordSearchSegue" id="klc-ZY-cH4"/>
                                 </connections>
                             </tableViewCell>
