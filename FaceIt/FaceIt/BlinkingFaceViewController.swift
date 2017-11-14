@@ -9,27 +9,36 @@
 import UIKit
 
 class BlinkingFaceViewController: FaceViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    var blinking = false {
+        didSet {
+            blinkIfNeeded()
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private struct BlinkRate {
+        static let closedDuration: TimeInterval = 0.4
+        static let openDuration: TimeInterval = 2.5
     }
-    */
-
+    
+    private func blinkIfNeeded() {
+        if blinking {
+            faceView.eyesOpen = false
+            Timer.scheduledTimer(withTimeInterval: BlinkRate.closedDuration, repeats: false) { [weak self] timer in
+                self?.faceView.eyesOpen = true
+                Timer.scheduledTimer(withTimeInterval: BlinkRate.openDuration, repeats: false) { [weak self] timer in
+                    self?.blinkIfNeeded()
+                }
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        blinking = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        blinking = false
+    }
 }
