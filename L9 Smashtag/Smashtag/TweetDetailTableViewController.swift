@@ -15,7 +15,7 @@ class TweetDetailTableViewController: UITableViewController {
         didSet {
             if let tweet = tweet {
                 title = tweet.user.screenName
-//                mentionSections = initMensionSections(from: tweet)
+                mentionSections = initMensionSections(from: tweet)
                 tableView.reloadData()
             }
         }
@@ -23,7 +23,7 @@ class TweetDetailTableViewController: UITableViewController {
     
     private var rowHeights: [Int:CGFloat] = [:]
     
-    private var mentionSections: [MentionSection]?
+    private var mentionSections: [MentionTypeKey:MentionSection] = [:]
     
     private struct MentionSection {
         var type: String
@@ -35,6 +35,25 @@ class TweetDetailTableViewController: UITableViewController {
         case image(URL, Double)
     }
     
+    private enum MentionTypeKey : String {
+        case Image = "Image"
+        case Hashtag = "Hashtag"
+        case URL = "URL"
+        case User = "User"
+        
+        static let order = [Image, Hashtag, URL, User]
+    }
+    
+    private struct Storyboard {
+        static let KeywordCell = "Keyword"
+        static let ImageCell = "Image"
+        
+        static let KeywordSegue = "newKeywordSearchSegue"
+        static let ImageSegue = "Show Image"
+        static let WebSegue = "Show URL"
+        
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,96 +72,101 @@ class TweetDetailTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return tweet?.media.count ?? 0
-        case 1:
-            return tweet?.hashtags.count ?? 0
-        case 2:
-            return tweet?.urls.count ?? 0
-        default: break
-        }
-        
-        return tweet?.userMentions.count ?? 0
-    }
     
-    private func initMensionSections(from tweet:Twitter.Tweet)-> [MentionSection]{
-        var mentionSections = [MentionSection]()
+    private func initMensionSections(from tweet:Twitter.Tweet)-> [MentionTypeKey:MentionSection]{
+        var mentionSections = [MentionTypeKey:MentionSection]()
         
+        var section: MentionSection = MentionSection(type: MentionTypeKey.Image.rawValue, mentions: [MentionItem]())
         if  tweet.media.count > 0 {
-            mentionSections.append(MentionSection(type: "Images",
-                                                  mentions: tweet.media.map{ MentionItem.image($0.url, $0.aspectRatio)}))
+            section.mentions = tweet.media.map{ MentionItem.image($0.url, $0.aspectRatio)}
         }
-        if tweet.urls.count > 0 {
-            mentionSections.append(MentionSection(type: "URLs",
-                                                  mentions: tweet.urls.map{ MentionItem.keyword($0.keyword)}))
-        }
+        mentionSections[MentionTypeKey.Image] = section
+
+        section = MentionSection(type: MentionTypeKey.Hashtag.rawValue, mentions: [MentionItem]())
         if tweet.hashtags.count > 0 {
-            mentionSections.append(MentionSection(type: "Hashtags",
-                                                  mentions: tweet.hashtags.map{ MentionItem.keyword($0.keyword)}))
+            section.mentions = tweet.hashtags.map{ MentionItem.keyword($0.keyword)}
         }
+        mentionSections[MentionTypeKey.Hashtag] = section
+
+        section = MentionSection(type: MentionTypeKey.URL.rawValue, mentions: [MentionItem]())
+        if tweet.urls.count > 0 {
+            section.mentions = tweet.urls.map{ MentionItem.keyword($0.keyword)}
+        }
+        mentionSections[MentionTypeKey.URL] = section
+
         var userItems = [MentionItem]()
         
         //------- Extra Credit 1 -------------
         // userItems += [MentionItem.keyword("@" + tweet.user.screenName )]
         //------------------------------------------------
         
+        section = MentionSection(type: MentionTypeKey.User.rawValue, mentions: userItems)
         if tweet.userMentions.count > 0 {
             userItems += tweet.userMentions.map { MentionItem.keyword($0.keyword) }
+            section.mentions = userItems
         }
-        if userItems.count > 0 {
-            mentionSections.append(MentionSection(type: "Users", mentions: userItems))
-        }
-        
+        mentionSections[MentionTypeKey.User] = section
+
         return mentionSections
     }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cellIdentifier = "User"
-        
-        switch indexPath.section {
-        case 0:
-            cellIdentifier = "Image"
-        case 1:
-            cellIdentifier = "Hashtag"
-        case 2:
-            cellIdentifier = "Url"
-        default:
-            break;
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case Storyboard.KeywordSegue:
+                if let cell = sender as? MentionKeywordTableViewCell,
+                    let indexPath = tableView.indexPath(for: cell),
+                    let seguedToMvc = segue.destination as? TweetTableViewController {
+                    
+                    let mentionSectionKey = MentionTypeKey.order[indexPath.section]
+                    switch mentionSectionKey {
+                    case .Hashtag, .User:
+                        if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
+                            if case MentionItem.keyword(let keyword) = mention {
+                                seguedToMvc.searchText = keyword
+                            }
+                        }
+                    default: break
+                    }
+                }
+            default: break
+            }
         }
+    }
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return mentionSections.count
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (mentionSections[MentionTypeKey.order[section]]?.mentions.count)!
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let mention = (mentionSections[MentionTypeKey.order[indexPath.section]]?.mentions[indexPath.row])!
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        if let imageCell = cell as? MentionImageTableViewCell, let item = tweet?.media[indexPath.row] {
-            DispatchQueue.global(qos: .userInitiated).async {
-                if let urlContents = try? Data(contentsOf: item.url) {
-                    DispatchQueue.main.async {
-                        imageCell.urlContents = urlContents
-                        if let image = UIImage(data: urlContents) {
-                            tableView.beginUpdates()
-                            self.rowHeights[indexPath.row] = self.view.frame.width * (image.size.height / image.size.width)
-                            tableView.endUpdates()
+        switch mention {
+        case .keyword(let keyword):
+            let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.KeywordCell, for: indexPath)
+            cell.textLabel?.text = keyword
+            return cell
+        case .image(let url, let aspectRatio):
+            let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.ImageCell, for: indexPath)
+            if let imageCell = cell as? MentionImageTableViewCell {
+                imageCell.spinner.startAnimating()
+                DispatchQueue.global(qos: .userInitiated).async {
+                    if let urlContents = try? Data(contentsOf: url) {
+                        DispatchQueue.main.async {
+                            imageCell.urlContents = urlContents
+                                tableView.beginUpdates()
+                                self.rowHeights[indexPath.row] = self.view.frame.width * CGFloat(aspectRatio)
+                                tableView.endUpdates()
                         }
                     }
                 }
             }
-            
-        } else if let hashtagCell = cell as? MentionHashtagTableViewCell, let item = tweet?.hashtags[indexPath.row] {
-            hashtagCell.hashtag = item.keyword
-            
-        } else if let urlCell = cell as? MentionUrlTableViewCell, let item = tweet?.urls[indexPath.row] {
-            urlCell.url = item.keyword
-            
-        } else if let userCell = cell as? MentionUserTableViewCell, let item = tweet?.userMentions[indexPath.row] {
-            userCell.user = item.keyword            
+            return cell
         }
-        
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

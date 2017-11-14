@@ -11,18 +11,20 @@ import UIKit
 class MentionImageTableViewCell: UITableViewCell {
 
     @IBOutlet weak var tweetImage: UIImageView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    var urlContents: Data? { didSet{ updateUI() } }
-    
-    private func updateUI() {
-        if let urlContents = urlContents {
-            tweetImage.image = UIImage(data: urlContents)
-        }
-    }
+    var urlContents: Data? { didSet{ tempUpdateUI() } }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    private func tempUpdateUI() {
+        if let urlContents = urlContents {
+            tweetImage.image = UIImage(data: urlContents)
+            spinner.stopAnimating()
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
