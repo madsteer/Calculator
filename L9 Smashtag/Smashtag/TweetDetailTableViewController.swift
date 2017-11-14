@@ -188,16 +188,6 @@ class TweetDetailTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return determineSection(header: MentionTypeKey.fore[section].rawValue, for: self.tableView(tableView, numberOfRowsInSection: section))
-//        switch section {
-//        case 0:
-//            return determineSection(header: "Image", for: self.tableView(tableView, numberOfRowsInSection: section))
-//        case 1:
-//            return determineSection(header: "Hashtag", for: self.tableView(tableView, numberOfRowsInSection: section))
-//        case 2:
-//            return determineSection(header: "URL", for: self.tableView(tableView, numberOfRowsInSection: section))
-//        default:
-//            return determineSection(header: "User", for: self.tableView(tableView, numberOfRowsInSection: section))
-//        }
     }
     
     private func determineSection(header: String, for numberOfRows: Int) -> String? {
