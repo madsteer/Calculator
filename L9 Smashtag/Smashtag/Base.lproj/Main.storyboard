@@ -165,6 +165,7 @@
                                 <connections>
                                     <outlet property="spinner" destination="AGn-lG-ZAw" id="mNB-F7-py7"/>
                                     <outlet property="tweetImage" destination="GCZ-ej-FbI" id="Fcr-eq-nZa"/>
+                                    <segue destination="lGf-lp-zLa" kind="show" identifier="showImageSegue" id="3Vg-T6-5sN"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Keyword" rowHeight="92" id="xlT-Pd-MRW" customClass="MentionKeywordTableViewCell" customModule="Smashtag" customModuleProvider="target">
@@ -190,7 +191,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="tweetKeyword" destination="8ed-uL-NqM" id="det-0G-OCA"/>
-                                    <segue destination="qGf-I8-8L8" kind="show" identifier="newKeywordSearchSegue" id="klc-ZY-cH4"/>
+                                    <segue destination="qGf-I8-8L8" kind="show" identifier="newKeywordSearchSegue" id="4nQ-uK-nvE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -200,13 +201,90 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="cXZ-sk-taf"/>
+                    <connections>
+                        <segue destination="geb-o2-3ta" kind="show" identifier="showURLSegue" id="s48-Xl-uKx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="poA-yd-93p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="325.60000000000002" y="-177.66116941529236"/>
+            <point key="canvasLocation" x="410" y="-176"/>
+        </scene>
+        <!--Image View Controller-->
+        <scene sceneID="rdC-pd-7bw">
+            <objects>
+                <viewController id="lGf-lp-zLa" customClass="ImageViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UD4-Ib-oCk"/>
+                        <viewControllerLayoutGuide type="bottom" id="oIi-YS-dei"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hPT-aE-yvr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1iY-l3-uJx">
+                                <rect key="frame" x="20" y="28" width="335" height="631"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="1iY-l3-uJx" secondAttribute="trailing" constant="20" symbolic="YES" id="0lR-MJ-sNW"/>
+                            <constraint firstItem="1iY-l3-uJx" firstAttribute="top" secondItem="UD4-Ib-oCk" secondAttribute="bottom" constant="8" symbolic="YES" id="BWg-k2-vtJ"/>
+                            <constraint firstItem="oIi-YS-dei" firstAttribute="top" secondItem="1iY-l3-uJx" secondAttribute="bottom" constant="8" symbolic="YES" id="Nbn-sd-0Fj"/>
+                            <constraint firstItem="1iY-l3-uJx" firstAttribute="leading" secondItem="hPT-aE-yvr" secondAttribute="leading" constant="20" symbolic="YES" id="otU-g8-dbO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="1iY-l3-uJx" id="KrY-AJ-14t"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AOu-u8-hhN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1349.5999999999999" y="-613.04347826086962"/>
+        </scene>
+        <!--URL Mention View Controller-->
+        <scene sceneID="dzQ-Zn-avm">
+            <objects>
+                <viewController id="geb-o2-3ta" customClass="URLMentionViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1yB-rE-SiV"/>
+                        <viewControllerLayoutGuide type="bottom" id="cSC-Oj-kDU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SZq-VK-lJg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBm-1E-D6V">
+                                <rect key="frame" x="16" y="28" width="343" height="587"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Tn0-nL-ocJ">
+                                <rect key="frame" x="177" y="311" width="20" height="20"/>
+                                <color key="color" red="0.22518296760000001" green="0.18487731569999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gBm-1E-D6V" firstAttribute="top" secondItem="1yB-rE-SiV" secondAttribute="bottom" constant="8" symbolic="YES" id="InJ-bC-8M4"/>
+                            <constraint firstItem="Tn0-nL-ocJ" firstAttribute="centerX" secondItem="gBm-1E-D6V" secondAttribute="centerX" id="U3L-N4-JqB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gBm-1E-D6V" secondAttribute="trailing" id="VJy-Bz-8go"/>
+                            <constraint firstItem="Tn0-nL-ocJ" firstAttribute="centerY" secondItem="gBm-1E-D6V" secondAttribute="centerY" id="idP-qV-Ua6"/>
+                            <constraint firstItem="cSC-Oj-kDU" firstAttribute="top" secondItem="gBm-1E-D6V" secondAttribute="bottom" constant="8" symbolic="YES" id="mfO-Pq-KH4"/>
+                            <constraint firstItem="gBm-1E-D6V" firstAttribute="leading" secondItem="SZq-VK-lJg" secondAttribute="leadingMargin" id="ofM-pJ-XVC"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="spinner" destination="Tn0-nL-ocJ" id="Qpo-tc-wfc"/>
+                        <outlet property="webView" destination="gBm-1E-D6V" id="e4q-wC-vAO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ORX-z2-3ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1370" y="224"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="klc-ZY-cH4"/>
+        <segue reference="4nQ-uK-nvE"/>
     </inferredMetricsTieBreakers>
 </document>

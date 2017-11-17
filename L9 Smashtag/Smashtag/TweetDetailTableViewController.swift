@@ -49,8 +49,8 @@ class TweetDetailTableViewController: UITableViewController {
         static let ImageCell = "Image"
         
         static let KeywordSegue = "newKeywordSearchSegue"
-        static let ImageSegue = "Show Image"
-        static let WebSegue = "Show URL"
+        static let ImageSegue = "showImageSegue"
+        static let WebSegue = "showURLSegue"
         
     }
 
@@ -109,29 +109,19 @@ class TweetDetailTableViewController: UITableViewController {
 
         return mentionSections
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let identifier = segue.identifier {
-            switch identifier {
-            case Storyboard.KeywordSegue:
-                if let cell = sender as? MentionKeywordTableViewCell,
-                    let indexPath = tableView.indexPath(for: cell),
-                    let seguedToMvc = segue.destination as? TweetTableViewController {
-                    
-                    let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
-                    switch mentionSectionKey {
-                    case .Hashtag, .User:
-                        if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
-                            if case MentionItem.keyword(let keyword) = mention {
-                                seguedToMvc.searchText = keyword
-                            }
-                        }
-                    default: break
-                    }
+    
+    private func finishNewSearchKeywordSegue(_ indexPath: IndexPath) -> String? {
+        let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
+        switch mentionSectionKey {
+        case .Hashtag, .User, .URL:
+            if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
+                if case MentionItem.keyword(let keyword) = mention {
+                    return keyword
                 }
-            default: break
             }
+        default: break
         }
+        return nil
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -200,6 +190,88 @@ class TweetDetailTableViewController: UITableViewController {
             return header + "s"
         }
     }
+
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        if identifier == Storyboard.KeywordSegue,
+//            let cell = sender as? UITableViewCell,
+//            let indexPath = tableView.indexPath(for: cell) {
+//            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
+//            return false
+//        }
+//        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
+//    }
+    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let section = MentionTypeKey.fore[indexPath.section]
+//
+//        switch section {
+//        case .URL:
+////            let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.KeywordCell, for: indexPath)
+//            self.performSegue(withIdentifier: Storyboard.WebSegue, sender: self)
+//
+//        case .Image:
+//            self.performSegue(withIdentifier: Storyboard.ImageSegue, sender: self)
+////            super.tableView(tableView, didSelectRowAt: indexPath)
+//
+//        case .Hashtag, .User:
+////            let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.KeywordCell, for: indexPath)
+//            self.performSegue(withIdentifier: Storyboard.KeywordSegue, sender: self)
+//        }
+//
+//    }
+
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == Storyboard.KeywordSegue,
+            let cell = sender as? UITableViewCell,
+            let indexPath = tableView.indexPath(for: cell),
+            mentionSections[MentionTypeKey.fore[indexPath.section]]?.type == "URL" {
+            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
+            return false
+        }
+        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
+    }
+    
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if let identifier = segue.identifier {
+                switch identifier {
+                case Storyboard.KeywordSegue:
+                    if let cell = sender as? MentionKeywordTableViewCell,
+                        let indexPath = tableView.indexPath(for: cell),
+                        let seguedToMvc = segue.destination as? TweetTableViewController {
+    
+                        if let keyword = finishNewSearchKeywordSegue(indexPath) {
+                            seguedToMvc.searchText = keyword
+                        }
+    //                    let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
+    //                    switch mentionSectionKey {
+    //                    case .Hashtag, .User:
+    //                        if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
+    //                            if case MentionItem.keyword(let keyword) = mention {
+    //                                seguedToMvc.searchText = keyword
+    //                            }
+    //                        }
+    //                    default: break
+    //                    }
+                    }
+                case Storyboard.WebSegue:
+                    if let cell = sender as? MentionKeywordTableViewCell,
+                    let indexPath = tableView.indexPath(for: cell),
+                        let seguedToMvc = segue.destination as? URLMentionViewController {
+    
+                        if let keyword = finishNewSearchKeywordSegue(indexPath) {
+                            seguedToMvc.urlString = keyword
+                        }
+    
+                    }
+    
+                case Storyboard.ImageSegue:
+                    // MARK
+                    print("hi")
+    
+                default: break
+                }
+            }
+        }
 
     /*
     // Override to support conditional editing of the table view.
