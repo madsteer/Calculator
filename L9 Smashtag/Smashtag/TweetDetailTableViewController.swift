@@ -191,35 +191,6 @@ class TweetDetailTableViewController: UITableViewController {
         }
     }
 
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//        if identifier == Storyboard.KeywordSegue,
-//            let cell = sender as? UITableViewCell,
-//            let indexPath = tableView.indexPath(for: cell) {
-//            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
-//            return false
-//        }
-//        return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
-//    }
-    
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let section = MentionTypeKey.fore[indexPath.section]
-//
-//        switch section {
-//        case .URL:
-////            let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.KeywordCell, for: indexPath)
-//            self.performSegue(withIdentifier: Storyboard.WebSegue, sender: self)
-//
-//        case .Image:
-//            self.performSegue(withIdentifier: Storyboard.ImageSegue, sender: self)
-////            super.tableView(tableView, didSelectRowAt: indexPath)
-//
-//        case .Hashtag, .User:
-////            let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.KeywordCell, for: indexPath)
-//            self.performSegue(withIdentifier: Storyboard.KeywordSegue, sender: self)
-//        }
-//
-//    }
-
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == Storyboard.KeywordSegue,
             let cell = sender as? UITableViewCell,
@@ -231,91 +202,37 @@ class TweetDetailTableViewController: UITableViewController {
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
     }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if let identifier = segue.identifier {
-                switch identifier {
-                case Storyboard.KeywordSegue:
-                    if let cell = sender as? MentionKeywordTableViewCell,
-                        let indexPath = tableView.indexPath(for: cell),
-                        let seguedToMvc = segue.destination as? TweetTableViewController {
-    
-                        if let keyword = finishNewSearchKeywordSegue(indexPath) {
-                            seguedToMvc.searchText = keyword
-                        }
-    //                    let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
-    //                    switch mentionSectionKey {
-    //                    case .Hashtag, .User:
-    //                        if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
-    //                            if case MentionItem.keyword(let keyword) = mention {
-    //                                seguedToMvc.searchText = keyword
-    //                            }
-    //                        }
-    //                    default: break
-    //                    }
-                    }
-                case Storyboard.WebSegue:
-                    if let cell = sender as? MentionKeywordTableViewCell,
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case Storyboard.KeywordSegue:
+                if let cell = sender as? MentionKeywordTableViewCell,
                     let indexPath = tableView.indexPath(for: cell),
-                        let seguedToMvc = segue.destination as? URLMentionViewController {
-    
-                        if let keyword = finishNewSearchKeywordSegue(indexPath) {
-                            seguedToMvc.urlString = keyword
-                        }
-    
+                    let seguedToMvc = segue.destination as? TweetTableViewController {
+                    
+                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
+                        seguedToMvc.searchText = keyword
                     }
-    
-                case Storyboard.ImageSegue:
-                    // MARK
-                    print("hi")
-    
-                default: break
                 }
+            case Storyboard.WebSegue:
+                if let cell = sender as? MentionKeywordTableViewCell,
+                    let indexPath = tableView.indexPath(for: cell),
+                    let seguedToMvc = segue.destination as? URLMentionViewController {
+                    
+                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
+                        seguedToMvc.urlString = keyword
+                    }
+                    
+                }
+                
+            case Storyboard.ImageSegue:
+                if let cell = sender as? MentionImageTableViewCell,
+                    let seguedToMvc = segue.destination as? ImageViewController {
+                    seguedToMvc.imageView = cell.tweetImage
+                }
+                
+            default: break
             }
         }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

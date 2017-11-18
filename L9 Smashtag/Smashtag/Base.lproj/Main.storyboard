@@ -221,20 +221,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1iY-l3-uJx">
-                                <rect key="frame" x="20" y="28" width="335" height="631"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JT0-hf-fWq">
+                                <rect key="frame" x="16" y="28" width="339" height="619"/>
+                                <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dot-fe-W55">
+                                        <rect key="frame" x="159" y="299" width="20" height="20"/>
+                                        <color key="color" red="0.22518296760000001" green="0.18487731569999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Dot-fe-W55" secondAttribute="trailing" constant="20" symbolic="YES" id="Bt9-qK-3Rh"/>
+                                    <constraint firstItem="Dot-fe-W55" firstAttribute="centerX" secondItem="JT0-hf-fWq" secondAttribute="centerX" id="Ufs-wA-xxO"/>
+                                    <constraint firstAttribute="bottom" secondItem="Dot-fe-W55" secondAttribute="bottom" constant="20" symbolic="YES" id="caA-fm-tdo"/>
+                                    <constraint firstItem="Dot-fe-W55" firstAttribute="centerY" secondItem="JT0-hf-fWq" secondAttribute="centerY" id="sLY-PR-DDy"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="1iY-l3-uJx" secondAttribute="trailing" constant="20" symbolic="YES" id="0lR-MJ-sNW"/>
-                            <constraint firstItem="1iY-l3-uJx" firstAttribute="top" secondItem="UD4-Ib-oCk" secondAttribute="bottom" constant="8" symbolic="YES" id="BWg-k2-vtJ"/>
-                            <constraint firstItem="oIi-YS-dei" firstAttribute="top" secondItem="1iY-l3-uJx" secondAttribute="bottom" constant="8" symbolic="YES" id="Nbn-sd-0Fj"/>
-                            <constraint firstItem="1iY-l3-uJx" firstAttribute="leading" secondItem="hPT-aE-yvr" secondAttribute="leading" constant="20" symbolic="YES" id="otU-g8-dbO"/>
+                            <constraint firstItem="JT0-hf-fWq" firstAttribute="leading" secondItem="hPT-aE-yvr" secondAttribute="leadingMargin" id="0da-7T-B6v"/>
+                            <constraint firstAttribute="trailing" secondItem="JT0-hf-fWq" secondAttribute="trailing" constant="20" symbolic="YES" id="Sus-yi-1bM"/>
+                            <constraint firstAttribute="bottom" secondItem="JT0-hf-fWq" secondAttribute="bottom" constant="20" symbolic="YES" id="ZiZ-wK-Wwz"/>
+                            <constraint firstItem="JT0-hf-fWq" firstAttribute="top" secondItem="UD4-Ib-oCk" secondAttribute="bottom" constant="8" symbolic="YES" id="mhH-l8-KyU"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="1iY-l3-uJx" id="KrY-AJ-14t"/>
+                        <outlet property="scrollView" destination="JT0-hf-fWq" id="L5E-Jd-w76"/>
+                        <outlet property="spinner" destination="Dot-fe-W55" id="D33-nn-EZg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AOu-u8-hhN" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,19 +21,10 @@ class URLMentionViewController: UIViewController, UIWebViewDelegate {
             }
         }
     }
+    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     var urlString: String?
-    
-//    override func loadView() {
-//        super.loadView()
-//
-////        let webConfiguration = WKWebViewConfiguration()
-////        webView = WKWebView(frame: .zero, configuration: webConfiguration)
-//        webView = WKWebView()
-//        webView?.navigationDelegate = self
-//        view = webView
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,35 +46,9 @@ class URLMentionViewController: UIViewController, UIWebViewDelegate {
                     DispatchQueue.main.async {
                         self.webView.loadRequest(request)
                         self.spinner.stopAnimating()
-//                        self.webView.allowsBackForwardNavigationGestures = true
                     }
                 }
             }
         }
-//        spinner.stopAnimating()
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-//        if let identifier = segue.identifier {
-//            switch identifier {
-//            case "returnToDetail":
-//                  if  let seguedToMvc = segue.destination as? TweetTableViewController {
-//                    seguedToMvc
-//                }
-//            default: break
-//            }
-//        }
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
