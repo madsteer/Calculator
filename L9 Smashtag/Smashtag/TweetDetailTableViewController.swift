@@ -109,20 +109,6 @@ class TweetDetailTableViewController: UITableViewController {
 
         return mentionSections
     }
-    
-    private func finishNewSearchKeywordSegue(_ indexPath: IndexPath) -> String? {
-        let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
-        switch mentionSectionKey {
-        case .Hashtag, .User, .URL:
-            if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
-                if case MentionItem.keyword(let keyword) = mention {
-                    return keyword
-                }
-            }
-        default: break
-        }
-        return nil
-    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return mentionSections.count
@@ -196,7 +182,20 @@ class TweetDetailTableViewController: UITableViewController {
             let cell = sender as? UITableViewCell,
             let indexPath = tableView.indexPath(for: cell),
             mentionSections[MentionTypeKey.fore[indexPath.section]]?.type == "URL" {
-            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
+    
+            if let keyword = finishNewSearchKeywordSegue(indexPath),
+                let url = URL(string: keyword) {
+
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: {
+                        (succes) in
+                        print("Opening \(keyword) was successful!")
+                    })
+                } else {
+                    print("Opening \(keyword) was \(UIApplication.shared.openURL(url))")
+                }
+            }
+//            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
             return false
         }
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
@@ -214,16 +213,16 @@ class TweetDetailTableViewController: UITableViewController {
                         seguedToMvc.searchText = keyword
                     }
                 }
-            case Storyboard.WebSegue:
-                if let cell = sender as? MentionKeywordTableViewCell,
-                    let indexPath = tableView.indexPath(for: cell),
-                    let seguedToMvc = segue.destination as? URLMentionViewController {
-                    
-                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
-                        seguedToMvc.urlString = keyword
-                    }
-                    
-                }
+//            case Storyboard.WebSegue:
+//                if let cell = sender as? MentionKeywordTableViewCell,
+//                    let indexPath = tableView.indexPath(for: cell),
+//                    let seguedToMvc = segue.destination as? URLMentionViewController {
+//                
+//                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
+//                        seguedToMvc.urlString = keyword
+//                    }
+//                    
+//                }
                 
             case Storyboard.ImageSegue:
                 if let cell = sender as? MentionImageTableViewCell,
@@ -234,5 +233,19 @@ class TweetDetailTableViewController: UITableViewController {
             default: break
             }
         }
+    }
+    
+    private func finishNewSearchKeywordSegue(_ indexPath: IndexPath) -> String? {
+        let mentionSectionKey = MentionTypeKey.fore[indexPath.section]
+        switch mentionSectionKey {
+        case .Hashtag, .User, .URL:
+            if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
+                if case MentionItem.keyword(let keyword) = mention {
+                    return keyword
+                }
+            }
+        default: break
+        }
+        return nil
     }
 }
