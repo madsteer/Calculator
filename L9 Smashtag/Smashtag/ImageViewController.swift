@@ -12,6 +12,10 @@ extension ImageViewController : UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
+    
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        autoZoomed = false
+    }
 }
 
 class ImageViewController: UIViewController {
@@ -31,6 +35,7 @@ class ImageViewController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     var imageView = UIImageView()
+    fileprivate var autoZoomed = true
     
     private var image: UIImage? {
         get { return imageView.image }
@@ -39,19 +44,26 @@ class ImageViewController: UIViewController {
             imageView.sizeToFit()
             scrollView?.contentSize = imageView.frame.size
             spinner?.stopAnimating()
+            autoZoomed = true
+            zoomScaleToFit()
         }
     }
-    //    var urlContents: Data? { didSet{ updateUI() } }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    private func zoomScaleToFit() {
+        if let sv = scrollView,
+            image != nil && autoZoomed && imageView.bounds.size.width > 0 && scrollView.bounds.size.width > 0 {
+            
+            let widthRatio = scrollView.bounds.size.width / imageView.bounds.size.width
+            let heightRatio = scrollView.bounds.size.height / imageView.bounds.size.height
+            sv.zoomScale = (widthRatio > heightRatio) ? widthRatio : heightRatio
+            sv.contentOffset = CGPoint(x: (imageView.frame.size.width - sv.frame.size.width) / 2,
+                                       y: (imageView.frame.size.height - sv.frame.size.height) / 2)
+            
+        }
     }
-
-//    private func updateUI() {
-//        if let urlContents = urlContents {
-//            imageView.image = UIImage(data: urlContents)
-//        }
-//    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        zoomScaleToFit()
+    }
 }

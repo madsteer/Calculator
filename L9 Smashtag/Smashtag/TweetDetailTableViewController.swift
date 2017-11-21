@@ -50,20 +50,18 @@ class TweetDetailTableViewController: UITableViewController {
         
         static let KeywordSegue = "newKeywordSearchSegue"
         static let ImageSegue = "showImageSegue"
-        static let WebSegue = "showURLSegue"
-        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
-
-
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
@@ -195,7 +193,6 @@ class TweetDetailTableViewController: UITableViewController {
                     print("Opening \(keyword) was \(UIApplication.shared.openURL(url))")
                 }
             }
-//            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
             return false
         }
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
@@ -213,16 +210,6 @@ class TweetDetailTableViewController: UITableViewController {
                         seguedToMvc.searchText = keyword
                     }
                 }
-//            case Storyboard.WebSegue:
-//                if let cell = sender as? MentionKeywordTableViewCell,
-//                    let indexPath = tableView.indexPath(for: cell),
-//                    let seguedToMvc = segue.destination as? URLMentionViewController {
-//                
-//                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
-//                        seguedToMvc.urlString = keyword
-//                    }
-//                    
-//                }
                 
             case Storyboard.ImageSegue:
                 if let cell = sender as? MentionImageTableViewCell,
