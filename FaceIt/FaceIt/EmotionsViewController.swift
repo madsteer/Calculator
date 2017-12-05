@@ -17,17 +17,17 @@ extension EmotionsViewController: UISplitViewControllerDelegate {
 class EmotionsViewController: UITableViewController {
 
     fileprivate var collapseDetailViewController = true
-
+    
     private var emotionalFaces: [(name:String, expression: FacialExpression)]  = [
         ("sad", FacialExpression(eyes: .closed, mouth: .frown)),
         ("happy", FacialExpression(eyes: .open, mouth: .smile)),
         ("worried", FacialExpression(eyes: .open, mouth: .smirk))
     ]
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        splitViewController?.delegate = self
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        splitViewController?.delegate = self
+    }
     
     // MARK: UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,6 +43,8 @@ class EmotionsViewController: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        collapseDetailViewController = false
+        
         var destinationViewController = segue.destination
         if let navigationController = destinationViewController as? UINavigationController {
             destinationViewController = navigationController.visibleViewController ?? destinationViewController
