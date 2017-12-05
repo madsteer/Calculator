@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D8933F681FCF5FEE002CE533 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8933F671FCF5FEE002CE533 /* DetailViewController.swift */; };
+		D8E62BDE1FD0FA8300903683 /* TopRatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E62BDD1FD0FA8300903683 /* TopRatedViewController.swift */; };
+		D8E62BE01FD0FC2300903683 /* CommonViewControllerCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E62BDF1FD0FC2300903683 /* CommonViewControllerCode.swift */; };
 		D8F8D3951FC6021000F91E83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F8D3941FC6021000F91E83 /* AppDelegate.swift */; };
 		D8F8D3971FC6021000F91E83 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F8D3961FC6021000F91E83 /* ViewController.swift */; };
 		D8F8D39A1FC6021000F91E83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8F8D3981FC6021000F91E83 /* Main.storyboard */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		D8933F671FCF5FEE002CE533 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D8E62BDD1FD0FA8300903683 /* TopRatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedViewController.swift; sourceTree = "<group>"; };
+		D8E62BDF1FD0FC2300903683 /* CommonViewControllerCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewControllerCode.swift; sourceTree = "<group>"; };
 		D8F8D3911FC6021000F91E83 /* TabBarControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TabBarControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8F8D3941FC6021000F91E83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8F8D3961FC6021000F91E83 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,10 +62,12 @@
 		D8F8D3931FC6021000F91E83 /* TabBarControllerExample */ = {
 			isa = PBXGroup;
 			children = (
+				D8E62BDD1FD0FA8300903683 /* TopRatedViewController.swift */,
 				D8F8D3961FC6021000F91E83 /* ViewController.swift */,
 				D8933F671FCF5FEE002CE533 /* DetailViewController.swift */,
 				D8F8D3981FC6021000F91E83 /* Main.storyboard */,
 				D8F8D3941FC6021000F91E83 /* AppDelegate.swift */,
+				D8E62BDF1FD0FC2300903683 /* CommonViewControllerCode.swift */,
 				D8F8D3AB1FC610B000F91E83 /* Supporting Files */,
 			);
 			path = TabBarControllerExample;
@@ -152,8 +158,10 @@
 			files = (
 				D8F8D3A81FC6104E00F91E83 /* SwiftyJSON.swift in Sources */,
 				D8F8D3971FC6021000F91E83 /* ViewController.swift in Sources */,
+				D8E62BE01FD0FC2300903683 /* CommonViewControllerCode.swift in Sources */,
 				D8F8D3951FC6021000F91E83 /* AppDelegate.swift in Sources */,
 				D8933F681FCF5FEE002CE533 /* DetailViewController.swift in Sources */,
+				D8E62BDE1FD0FA8300903683 /* TopRatedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

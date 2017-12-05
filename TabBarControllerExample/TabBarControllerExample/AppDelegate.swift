@@ -15,13 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let currentAppBundle: Bundle? = nil
-        if let tabBarController = window?.rootViewController as? UITabBarController {
-            let storyboard = UIStoryboard(name: "Main", bundle: currentAppBundle)
-            let vc = storyboard.instantiateViewController(withIdentifier: "NavController")
-            vc.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: ViewController.popularPetitionsTabPosition)
-            tabBarController.viewControllers?.append(vc)
-        }
+//        let currentAppBundle: Bundle? = nil
+//        if let tabBarController = window?.rootViewController as? UITabBarController {
+//            let storyboard = UIStoryboard(name: "Main", bundle: currentAppBundle)
+//            let vc = storyboard.instantiateViewController(withIdentifier: "NavController")
+//            vc.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: ViewController.popularPetitionsTabPosition)
+//            tabBarController.viewControllers?.append(vc)
+//        }
         
         return true
     }
