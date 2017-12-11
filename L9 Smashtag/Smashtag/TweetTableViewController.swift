@@ -17,8 +17,7 @@ import Twitter
 // into the Embedded Binaries section
 // of the Project Settings of this application
 
-class TweetTableViewController: UITableViewController, UITextFieldDelegate
-{
+class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: Model
 
     // part of our Model
@@ -38,8 +37,12 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
             tweets.removeAll()
             tableView.reloadData()
             searchForTweets()
-            title = searchText
+            tryToSet(title: searchText)
         }
+    }
+    
+    internal func tryToSet(title searchText: String?) {
+        title = searchText
     }
     
     // MARK: Updating the Table

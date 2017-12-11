@@ -62,10 +62,10 @@
 		D8F8D3931FC6021000F91E83 /* TabBarControllerExample */ = {
 			isa = PBXGroup;
 			children = (
+				D8F8D3981FC6021000F91E83 /* Main.storyboard */,
 				D8E62BDD1FD0FA8300903683 /* TopRatedViewController.swift */,
 				D8F8D3961FC6021000F91E83 /* ViewController.swift */,
 				D8933F671FCF5FEE002CE533 /* DetailViewController.swift */,
-				D8F8D3981FC6021000F91E83 /* Main.storyboard */,
 				D8F8D3941FC6021000F91E83 /* AppDelegate.swift */,
 				D8E62BDF1FD0FC2300903683 /* CommonViewControllerCode.swift */,
 				D8F8D3AB1FC610B000F91E83 /* Supporting Files */,
