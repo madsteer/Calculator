@@ -57,20 +57,8 @@ class TweetDetailTableViewController: UITableViewController {
         
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     private func initMensionSections(from tweet:Twitter.Tweet)-> [MentionTypeKey:MentionSection]{
         var mentionSections = [MentionTypeKey:MentionSection]()
         
@@ -94,9 +82,7 @@ class TweetDetailTableViewController: UITableViewController {
 
         var userItems = [MentionItem]()
         
-        //------- Extra Credit 1 -------------
-        // userItems += [MentionItem.keyword("@" + tweet.user.screenName )]
-        //------------------------------------------------
+         userItems += [MentionItem.keyword("@" + tweet.user.screenName )]
         
         section = MentionSection(type: MentionTypeKey.User.rawValue, mentions: userItems)
         if tweet.userMentions.count > 0 {

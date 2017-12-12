@@ -12,50 +12,54 @@ import Twitter
 
 class RecentSearchesTableViewController: FetchedResultsTableViewController {
 
-    var savedSearches: [String]? { didSet { updateUI() } }
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        tableView.estimatedRowHeight = tableView.rowHeight
-//        tableView.rowHeight = UITableViewAutomaticDimension
-//    }
-
-    private lazy var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer { didSet { updateUI() } }
+    private var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer { didSet { updateUI() } }
     
     private var fetchedResultsController: NSFetchedResultsController<SavedSearch>?
     
+    private var searchCount: Int? { didSet { tableView.reloadData() } }
+    
     private func updateUI() {
-        if let context = container?.viewContext, savedSearches != nil {
+        if let context = container?.viewContext /*, savedSearches != nil */ {
             let request: NSFetchRequest<SavedSearch> = SavedSearch.fetchRequest()
             request.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false, selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))]
-//            request.predicate = NSPredicate(format: "any tweets.text contains[c] %@", mention!)
             fetchedResultsController = NSFetchedResultsController<SavedSearch>(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         }
         try? fetchedResultsController?.performFetch()
         tableView.reloadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        searchCount = nil
+    }
+    
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return savedSearches?.count ?? 0
+        if let context = container?.viewContext, searchCount == nil {
+            context.perform {
+                if let count = try? context.count(for: SavedSearch.fetchRequest()) {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.searchCount = count
+                    }
+                }
+            }
+        }
+        return searchCount ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Search Term Cell", for: indexPath)
         
-        if let savedSearches = savedSearches {
-            let savedSearch = savedSearches[indexPath.row]
-            
-            if let searchCell = cell as? SearchTermTableViewCell {
-                searchCell.term = savedSearch
-            }
+        if let savedSearch = fetchedResultsController?.object(at: indexPath),
+            let searchCell = cell as? SearchTermTableViewCell {
+            searchCell.term = savedSearch.text
         }
-        
         return cell
     }
 

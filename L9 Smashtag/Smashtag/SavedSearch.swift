@@ -12,12 +12,11 @@ import CoreData
 class SavedSearch: NSManagedObject {
     class func findOrCreateSavedSearch(matching searchInfo: String, in context: NSManagedObjectContext) throws -> [SavedSearch] {
         let request: NSFetchRequest<SavedSearch> = SavedSearch.fetchRequest()
-        request.predicate = NSPredicate(format: "search_string = %@", searchInfo)
+        request.predicate = NSPredicate(format: "text = %@", searchInfo)
         
         do {
             let matches = try context.fetch(request)
             if matches.count > 0 {
-//                assert(matches.count == 1, "SavedSearch.findOrCreateSavedSearch -- database inconsistency")
                 return matches
             }
         } catch {
