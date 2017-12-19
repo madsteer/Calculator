@@ -12,7 +12,7 @@ import CoreData
 class SavedSearch: NSManagedObject {
     class func findOrCreateSavedSearch(matching searchInfo: String, in context: NSManagedObjectContext) throws -> [SavedSearch] {
         let request: NSFetchRequest<SavedSearch> = SavedSearch.fetchRequest()
-        request.predicate = NSPredicate(format: "text = %@", searchInfo)
+        request.predicate = NSPredicate(format: "text =[c] %@", searchInfo)
         
         do {
             let matches = try context.fetch(request)
