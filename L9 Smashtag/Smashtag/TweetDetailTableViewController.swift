@@ -190,7 +190,7 @@ class TweetDetailTableViewController: UITableViewController {
             case Storyboard.KeywordSegue:
                 if let cell = sender as? MentionKeywordTableViewCell,
                     let indexPath = tableView.indexPath(for: cell),
-                    let seguedToMvc = segue.destination as? TweetTableViewController {
+                    let seguedToMvc = segue.destination as? NewSearchTweetTableViewController {
                     
                     if let keyword = finishNewSearchKeywordSegue(indexPath) {
                         seguedToMvc.searchText = keyword

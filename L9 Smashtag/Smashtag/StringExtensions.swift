@@ -13,7 +13,7 @@ extension String {
         var urls: [String] = []
         do {
             let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-            detector.enumerateMatches(in: self, options: [], range: NSMakeRange(0, self.characters.count), using: { (result, _, _) in
+            detector.enumerateMatches(in: self, options: [], range: NSMakeRange(0, self.count), using: { (result, _, _) in
                 if let match = result, let url = match.url {
                     urls.append(url.absoluteString)
                 }
@@ -30,7 +30,7 @@ extension String {
         var result: [String] = []
         
         let regex = try! NSRegularExpression(pattern: expression, options: [])
-        let matches = regex.matches(in: self, options: [], range: NSMakeRange(0, self.characters.count))
+        let matches = regex.matches(in: self, options: [], range: NSMakeRange(0, self.count))
         for match in matches {
             result.append(NSString(string: self).substring(with: NSRange(location:match.range.location, length:match.range.length)))
         }

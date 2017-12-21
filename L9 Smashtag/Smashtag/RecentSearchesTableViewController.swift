@@ -62,5 +62,17 @@ class RecentSearchesTableViewController: FetchedResultsTableViewController {
         }
         return cell
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if identifier == "Show Tweets From Saved Search",
+                let cell = sender as? SearchTermTableViewCell,
+                let seguedToMvc = segue.destination as? OldSearchTweetTableViewController,
+                let searchTerm = cell.term {
+                // do stuff
+                seguedToMvc.searchText = searchTerm
+            }
+        }
+    }
 
 }

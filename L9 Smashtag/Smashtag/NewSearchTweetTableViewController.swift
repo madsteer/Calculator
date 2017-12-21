@@ -1,5 +1,5 @@
 //
-//  SaveSearchTweetTableViewController.swift
+//  NewSearchTweetTableViewController.swift
 //  Smashtag
 //
 //  Created by Cory Steers on 12/8/17.
@@ -10,17 +10,34 @@ import UIKit
 import CoreData
 import Twitter
 
-class SaveSearchTweetTableViewController: TweetTableViewController {
+class NewSearchTweetTableViewController: TweetTableViewController {
 
+    // set ourself to be the UITextFieldDelegate
+    // so that we can get textFieldShouldReturn sent to us
+    @IBOutlet weak var searchTextField: UITextField! {
+        didSet {
+            searchTextField.delegate = self
+        }
+    }
+    
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
-    override func tryToSet(title searchText: String?) {
-        super.tryToSet(title: searchText)
+    // when the return (i.e. Search) button is pressed in the keyboard
+    // we go off to search for the text in the searchTextField
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == searchTextField {
+            searchText = searchTextField.text
+        }
+        return true
+    }
+    
+    override func didSet(_ searchText: String?) {
+        super.didSet(searchText)
         if let searchText = searchText {
             let _ = updateDatabase(with: searchText)
         }
     }
-    
+
     private func updateDatabase(with searchText: String) {
         container?.performBackgroundTask { [weak self] context in
             let _ = try? SavedSearch.findOrCreateSavedSearch(matching: searchText, in: context)

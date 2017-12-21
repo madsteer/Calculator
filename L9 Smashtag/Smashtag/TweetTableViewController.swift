@@ -31,18 +31,16 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     // to reflect the result of fetching Tweets that match
     var searchText: String? {
         didSet {
-            searchTextField?.text = searchText
-            searchTextField?.resignFirstResponder()
-            lastTwitterRequest = nil                // REFRESHING
-            tweets.removeAll()
-            tableView.reloadData()
-            searchForTweets()
-            tryToSet(title: searchText)
+            didSet(searchText)
         }
     }
     
-    internal func tryToSet(title searchText: String?) {
-        title = searchText
+    internal func didSet(_ searchText: String?) {
+        lastTwitterRequest = nil        // REFRESHING
+        tweets.removeAll()
+        tableView.reloadData()
+        searchForTweets()
+        title = searchText ?? title
     }
     
     // MARK: Updating the Table
@@ -126,20 +124,20 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
     // set ourself to be the UITextFieldDelegate
     // so that we can get textFieldShouldReturn sent to us
-    @IBOutlet weak var searchTextField: UITextField! {
-        didSet {
-            searchTextField.delegate = self
-        }
-    }
+//    @IBOutlet weak var searchTextField: UITextField! {
+//        didSet {
+//            searchTextField.delegate = self
+//        }
+//    }
     
     // when the return (i.e. Search) button is pressed in the keyboard
     // we go off to search for the text in the searchTextField
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == searchTextField {
-            searchText = searchTextField.text
-        }
-        return true
-    }
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        if textField == searchTextField {
+//            searchText = searchTextField.text
+//        }
+//        return true
+//    }
     
     // MARK: - UITableViewDataSource
     
