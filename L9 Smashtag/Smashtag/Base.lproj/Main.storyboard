@@ -268,10 +268,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JT0-hf-fWq">
-                                <rect key="frame" x="16" y="28" width="339" height="619"/>
+                                <rect key="frame" x="16" y="72" width="339" height="575"/>
                                 <subviews>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dot-fe-W55">
-                                        <rect key="frame" x="159" y="299.5" width="20" height="20"/>
+                                        <rect key="frame" x="159" y="277.5" width="20" height="20"/>
                                         <color key="color" red="0.22518296760000001" green="0.18487731569999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -442,7 +442,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rhH-9G-yJa"/>
+        <segue reference="kmb-qi-vJU"/>
         <segue reference="4nQ-uK-nvE"/>
     </inferredMetricsTieBreakers>
 </document>

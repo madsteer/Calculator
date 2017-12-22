@@ -55,4 +55,15 @@ class NewSearchTweetTableViewController: TweetTableViewController {
             }
         }
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "tweetDetailSegue":
+                finishPeparing(for: segue, sender)
+            default: break
+            }
+        }
+    }
 }

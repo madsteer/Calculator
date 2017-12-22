@@ -19,5 +19,15 @@ class OldSearchTweetTableViewController: TweetTableViewController {
         }
     }
 
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "Old Search Tweet Detail Segue":
+                finishPeparing(for: segue, sender)
+            default: break
+            }
+        }
+    }
+
 }

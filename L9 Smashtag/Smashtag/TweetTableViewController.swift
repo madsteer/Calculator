@@ -100,44 +100,30 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         // using the UITableViewDelegate method heightForRowAt
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        var destinationVC = segue.destination
-//        if let navVC = destinationVC as? UINavigationController {
-//            destinationVC = navVC.visibleViewController ?? destinationVC
+
+    // MARK: move to child class(es)
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let identifier = segue.identifier {
+//            switch identifier {
+//            case "tweetDetailSegue":
+//                if let cell = sender as? TweetTableViewCell,
+//                    let indexPath = tableView.indexPath(for: cell),
+//                    let seguedToMvc = segue.destination as? TweetDetailTableViewController {
+//                    seguedToMvc.tweet = tweets[indexPath.section][indexPath.row]
+//                }
+//            default: break
+//            }
 //        }
-        if let identifier = segue.identifier {
-            switch identifier {
-            case "tweetDetailSegue":
-                if let cell = sender as? TweetTableViewCell,
-                    let indexPath = tableView.indexPath(for: cell),
-                    let seguedToMvc = segue.destination as? TweetDetailTableViewController {
-//                    let seguedToMvc = destinationVC as? TweetDetailTableViewController {
-                    seguedToMvc.tweet = tweets[indexPath.section][indexPath.row]
-                }
-            default: break
-            }
+//    }
+    
+    internal func finishPeparing(for segue: UIStoryboardSegue, _ sender: Any?) {
+        if let cell = sender as? TweetTableViewCell,
+            let indexPath = tableView.indexPath(for: cell),
+            let seguedToMvc = segue.destination as? TweetDetailTableViewController {
+            seguedToMvc.tweet = tweets[indexPath.section][indexPath.row]
         }
     }
 
-    // MARK: Search Text Field
-
-    // set ourself to be the UITextFieldDelegate
-    // so that we can get textFieldShouldReturn sent to us
-//    @IBOutlet weak var searchTextField: UITextField! {
-//        didSet {
-//            searchTextField.delegate = self
-//        }
-//    }
-    
-    // when the return (i.e. Search) button is pressed in the keyboard
-    // we go off to search for the text in the searchTextField
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if textField == searchTextField {
-//            searchText = searchTextField.text
-//        }
-//        return true
-//    }
     
     // MARK: - UITableViewDataSource
     
@@ -158,8 +144,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
         // Configure the cell...
         // the textLabel and detailTextLabel are for non-Custom cells
-//        cell.textLabel?.text = tweet.text
-//        cell.detailTextLabel?.text = tweet.user.name
         
         // our outlets to our custom UI
         // are connected to this custom UITableViewCell-subclassed cell
@@ -173,9 +157,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     // Added after lecture for REFRESHING
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        // make it a little clearer when each pull from Twitter
-        // occurs in the table by setting section header titles
-        return "\(tweets.count-section)"
-    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        // make it a little clearer when each pull from Twitter
+//        // occurs in the table by setting section header titles
+//        return "\(tweets.count-section)"
+//    }
 }
