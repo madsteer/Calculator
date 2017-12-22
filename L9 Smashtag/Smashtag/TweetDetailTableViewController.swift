@@ -82,7 +82,7 @@ class TweetDetailTableViewController: UITableViewController {
 
         var userItems = [MentionItem]()
         
-         userItems += [MentionItem.keyword("@" + tweet.user.screenName )]
+        userItems += [MentionItem.keyword("@" + tweet.user.screenName )]
         
         section = MentionSection(type: MentionTypeKey.User.rawValue, mentions: userItems)
         if tweet.userMentions.count > 0 {
@@ -214,11 +214,18 @@ class TweetDetailTableViewController: UITableViewController {
         case .Hashtag, .User, .URL:
             if let mention = mentionSections[mentionSectionKey]?.mentions[indexPath.row] {
                 if case MentionItem.keyword(let keyword) = mention {
-                    return keyword
+                    return enchanceUserSearchForPosted(by: keyword)
                 }
             }
         default: break
         }
         return nil
+    }
+    
+    private func enchanceUserSearchForPosted(by keyword: String) -> String {
+        if let newKeyword = keyword.substring(after: "@") {
+            return "\(keyword) OR from:\(newKeyword)"
+        }
+        return keyword
     }
 }
