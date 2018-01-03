@@ -50,6 +50,7 @@ class TweetDetailTableViewController: UITableViewController {
         
         static let KeywordSegue = "newKeywordSearchSegue"
         static let ImageSegue = "showImageSegue"
+        static let WebSegue = "showURLSegue"
     }
 
     override func viewDidLoad() {
@@ -167,18 +168,24 @@ class TweetDetailTableViewController: UITableViewController {
             let indexPath = tableView.indexPath(for: cell),
             mentionSections[MentionTypeKey.fore[indexPath.section]]?.type == "URL" {
     
-            if let keyword = finishNewSearchKeywordSegue(indexPath),
-                let url = URL(string: keyword) {
-
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: {
-                        (succes) in
-                        print("Opening \(keyword) was successful!")
-                    })
-                } else {
-                    print("Opening \(keyword) was \(UIApplication.shared.openURL(url))")
-                }
-            }
+            // MARK to open with webkit in our app
+            
+            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
+            
+            // MARK: if we want to open in mobile Safari
+            
+//            if let keyword = finishNewSearchKeywordSegue(indexPath),
+//                let url = URL(string: keyword) {
+//
+//                if #available(iOS 10.0, *) {
+//                    UIApplication.shared.open(url, options: [:], completionHandler: {
+//                        (succes) in
+//                        print("Opening \(keyword) was successful!")
+//                    })
+//                } else {
+//                    print("Opening \(keyword) was \(UIApplication.shared.openURL(url))")
+//                }
+//            }
             return false
         }
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
@@ -195,6 +202,17 @@ class TweetDetailTableViewController: UITableViewController {
                     if let keyword = finishNewSearchKeywordSegue(indexPath) {
                         seguedToMvc.searchText = keyword
                     }
+                }
+                
+            case Storyboard.WebSegue:
+                if let cell = sender as? MentionKeywordTableViewCell,
+                    let indexPath = tableView.indexPath(for: cell),
+                    let seguedToMvc = segue.destination as? URLMentionViewController {
+                    
+                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
+                        seguedToMvc.urlString = keyword
+                    }
+                    
                 }
                 
             case Storyboard.ImageSegue:

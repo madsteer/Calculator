@@ -21,6 +21,7 @@
 		D8E802F41FDB39F700755F61 /* FetchedResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E802F31FDB39F700755F61 /* FetchedResultsTableViewController.swift */; };
 		D8E802F61FDB407600755F61 /* SavedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E802F51FDB407600755F61 /* SavedSearch.swift */; };
 		D8E802F91FDB585800755F61 /* NewSearchTweetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E802F81FDB585800755F61 /* NewSearchTweetTableViewController.swift */; };
+		D8ED21301FFD5B2B00795AF0 /* URLMentionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8ED212F1FFD5B2B00795AF0 /* URLMentionViewController.swift */; };
 		EC7D5EBF1E4BF94B009A2E85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D5EBE1E4BF94B009A2E85 /* AppDelegate.swift */; };
 		EC7D5EC41E4BF94B009A2E85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC7D5EC21E4BF94B009A2E85 /* Main.storyboard */; };
 		EC7D5EC61E4BF94B009A2E85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC7D5EC51E4BF94B009A2E85 /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 		D8E802F31FDB39F700755F61 /* FetchedResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewController.swift; sourceTree = "<group>"; };
 		D8E802F51FDB407600755F61 /* SavedSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedSearch.swift; sourceTree = "<group>"; };
 		D8E802F81FDB585800755F61 /* NewSearchTweetTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSearchTweetTableViewController.swift; sourceTree = "<group>"; };
+		D8ED212F1FFD5B2B00795AF0 /* URLMentionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMentionViewController.swift; sourceTree = "<group>"; };
 		EC7D5EBB1E4BF94B009A2E85 /* Smashtag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smashtag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC7D5EBE1E4BF94B009A2E85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC7D5EC31E4BF94B009A2E85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				D8E802F81FDB585800755F61 /* NewSearchTweetTableViewController.swift */,
 				D84F4F641FEC48F0009F797E /* OldSearchTweetTableViewController.swift */,
 				D8340AC71FA4CEEB0052EBB1 /* TweetDetailTableViewController.swift */,
+				D8ED212F1FFD5B2B00795AF0 /* URLMentionViewController.swift */,
 				D8D053731FBDD7FB0096A85F /* ImageViewController.swift */,
 				EC7D5ED71E4C0239009A2E85 /* TweetTableViewCell.swift */,
 				D8E802F11FDB23D300755F61 /* SearchTermTableViewCell.swift */,
@@ -215,6 +218,7 @@
 				D8D053741FBDD7FB0096A85F /* ImageViewController.swift in Sources */,
 				D8E802F91FDB585800755F61 /* NewSearchTweetTableViewController.swift in Sources */,
 				D8E802F01FDB1EA200755F61 /* RecentSearchesTableViewController.swift in Sources */,
+				D8ED21301FFD5B2B00795AF0 /* URLMentionViewController.swift in Sources */,
 				D8929A741FBB7C9400F4132C /* MentionKeywordTableViewCell.swift in Sources */,
 				EC7D5EBF1E4BF94B009A2E85 /* AppDelegate.swift in Sources */,
 				EC7D5ED21E4BF992009A2E85 /* TweetTableViewController.swift in Sources */,
