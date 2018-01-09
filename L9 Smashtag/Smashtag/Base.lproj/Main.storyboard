@@ -306,7 +306,7 @@
         <!--URL Mention View Controller-->
         <scene sceneID="SBj-m6-N4l">
             <objects>
-                <viewController id="RFW-zM-Z5M" customClass="URLMentionViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="RFW-zM-Z5M" customClass="URLMentionViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xhc-GE-dz2"/>
                         <viewControllerLayoutGuide type="bottom" id="LNU-5q-fuy"/>
