@@ -34,8 +34,24 @@ class URLMentionViewController: UIViewController, UIWebViewDelegate {
     //        view = webView
     //    }
     
+    @objc private func refreshWebView() {
+        webView.reload()
+    }
+    
+    @objc private func backButton() {
+        self.navigationController?.popViewController(animated: true) // go back
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshWebView))
+        let back = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(backButton))
+        
+        navigationItem.rightBarButtonItems = [refresh]
+//        navigationItem.backBarButtonItem?.title = "Done"
+        navigationItem.hidesBackButton = true // turn off the "< <mention>" button
+        navigationItem.leftBarButtonItems = [back]
         
         updateUI()
     }
