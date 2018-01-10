@@ -8,6 +8,7 @@
 
 import UIKit
 import Twitter
+import SafariServices
 
 class TweetDetailTableViewController: UITableViewController {
 
@@ -50,7 +51,7 @@ class TweetDetailTableViewController: UITableViewController {
         
         static let KeywordSegue = "newKeywordSearchSegue"
         static let ImageSegue = "showImageSegue"
-        static let WebSegue = "showURLSegue"
+//        static let WebSegue = "showURLSegue"
     }
 
     override func viewDidLoad() {
@@ -130,6 +131,26 @@ class TweetDetailTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // MARK: for URL rows only
+        if mentionSections[MentionTypeKey.fore[indexPath.section]]?.type == "URL",
+            let keyword = finishNewSearchKeywordSegue(indexPath),
+            let url = URL(string: keyword) {
+            
+            var vc: SFSafariViewController
+            
+            if #available(iOS 11.0, *) {
+                let config = SFSafariViewController.Configuration()
+                config.entersReaderIfAvailable = true
+                vc = SFSafariViewController(url: url, configuration: config)
+            } else {
+                vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            }
+            
+            present(vc, animated: true)
+        }
+    }
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -170,7 +191,7 @@ class TweetDetailTableViewController: UITableViewController {
     
             // MARK to open with webkit in our app
             
-            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
+//            performSegue(withIdentifier: Storyboard.WebSegue, sender: sender)
             
             // MARK: if we want to open in mobile Safari
             
@@ -186,7 +207,9 @@ class TweetDetailTableViewController: UITableViewController {
 //                    print("Opening \(keyword) was \(UIApplication.shared.openURL(url))")
 //                }
 //            }
-            return false
+            
+            return false // we don't segue for URL rows when using SFSafariViewController
+            
         }
         return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
     }
@@ -204,16 +227,27 @@ class TweetDetailTableViewController: UITableViewController {
                     }
                 }
                 
-            case Storyboard.WebSegue:
-                if let cell = sender as? MentionKeywordTableViewCell,
-                    let indexPath = tableView.indexPath(for: cell),
-                    let seguedToMvc = segue.destination as? URLMentionViewController {
-                    
-                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
-                        seguedToMvc.urlString = keyword
-                    }
-                    
-                }
+                // case Storyboard.WebSegue:  // MARK: we don't segue for URLs when using SFSafariViewController
+                
+                // MARK: custom view controller with a UIWebView
+                
+//                if let cell = sender as? MentionKeywordTableViewCell,
+//                    let indexPath = tableView.indexPath(for: cell),
+//                    let seguedToMvc = segue.destination as? URLMentionViewController {
+//
+//                    if let keyword = finishNewSearchKeywordSegue(indexPath) {
+//                        seguedToMvc.urlString = keyword
+//                    }
+//
+//                }
+                
+                // MARK: use SFSafariViewController
+                
+//                let safariConfig = SFSafariViewController.Configuration()
+//                safariConfig.entersReaderIfAvailable = true
+//                let seguedToMvc = segue.destination as? SFSafariViewController
+                
+                
                 
             case Storyboard.ImageSegue:
                 if let cell = sender as? MentionImageTableViewCell,
