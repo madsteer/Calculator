@@ -9,6 +9,7 @@
 import UIKit
 
 extension ImageViewController : UIScrollViewDelegate {
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
@@ -65,5 +66,10 @@ class ImageViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         zoomScaleToFit()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addReturnHome()
     }
 }

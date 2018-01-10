@@ -92,6 +92,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // we use the row height in the storyboard as an "estimate"
         tableView.estimatedRowHeight = tableView.rowHeight
         // but use whatever autolayout says the height should be as the actual row height
