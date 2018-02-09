@@ -8,6 +8,7 @@
 
 import UIKit
 import Twitter
+import CoreData
 
 // this entire project will not work
 // unless you make a Workspace that includes
@@ -35,6 +36,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+
     internal func didSet(_ searchText: String?) {
         lastTwitterRequest = nil        // REFRESHING
         tweets.removeAll()
@@ -43,6 +46,15 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         title = searchText ?? title
     }
     
+    
+//    private func insert(_ newTweets: [Twitter.Tweet]) {
+//        //        tweets.insert(newTweets, at:0)
+//        //        tableView.insertSections([0], with: .fade)
+//        container?.performBackgroundTask { [weak self] context in
+//            try? Tweet.newTweets(for: newTweets, using: (self?.searchText)!, in: context)
+//        }
+//    }
+
     // MARK: Updating the Table
     
     // just creates a Twitter.Request
@@ -72,6 +84,10 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             request.fetchTweets { [weak self] newTweets in      // this is off the main queue
                 DispatchQueue.main.async {                      // so we must dispatch back to main queue
                     if request == self?.lastTwitterRequest {
+//                        self?.insert(newTweets)
+                        self?.container?.performBackgroundTask { [weak self] context in
+                            try? Tweet.newTweets(for: newTweets, using: (self?.searchText)!, in: context)
+                        }
                         self?.tweets.insert(newTweets, at:0)
                         self?.tableView.insertSections([0], with: .fade)
                     }
@@ -101,22 +117,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         // using the UITableViewDelegate method heightForRowAt
     }
     
-
-    // MARK: move to child class(es)
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let identifier = segue.identifier {
-//            switch identifier {
-//            case "tweetDetailSegue":
-//                if let cell = sender as? TweetTableViewCell,
-//                    let indexPath = tableView.indexPath(for: cell),
-//                    let seguedToMvc = segue.destination as? TweetDetailTableViewController {
-//                    seguedToMvc.tweet = tweets[indexPath.section][indexPath.row]
-//                }
-//            default: break
-//            }
-//        }
-//    }
-    
     internal func finishPeparing(for segue: UIStoryboardSegue, _ sender: Any?) {
         if let cell = sender as? TweetTableViewCell,
             let indexPath = tableView.indexPath(for: cell),
@@ -141,7 +141,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
         // get the tweet that is associated with this row
         // that the table view is asking us to provide a UITableViewCell for
-        let tweet: Tweet = tweets[indexPath.section][indexPath.row]
+        let tweet: Twitter.Tweet = tweets[indexPath.section][indexPath.row]
 
         // Configure the cell...
         // the textLabel and detailTextLabel are for non-Custom cells
