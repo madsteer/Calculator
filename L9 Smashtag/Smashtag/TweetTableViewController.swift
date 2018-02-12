@@ -87,6 +87,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 //                        self?.insert(newTweets)
                         self?.container?.performBackgroundTask { [weak self] context in
                             try? Tweet.newTweets(for: newTweets, using: (self?.searchText)!, in: context)
+                            try? context.save()
                         }
                         self?.tweets.insert(newTweets, at:0)
                         self?.tableView.insertSections([0], with: .fade)
