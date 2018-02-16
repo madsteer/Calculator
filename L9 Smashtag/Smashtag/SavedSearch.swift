@@ -14,13 +14,9 @@ class SavedSearch: NSManagedObject {
         let request: NSFetchRequest<SavedSearch> = SavedSearch.fetchRequest()
         request.predicate = NSPredicate(format: "text =[c] %@", searchInfo)
         
-        do {
-            let matches = try context.fetch(request)
-            if matches.count > 0 {
-                return matches
-            }
-        } catch {
-            throw error
+        let matches = try context.fetch(request)
+        if matches.count > 0 {
+            return matches
         }
         
         let savedSearch = SavedSearch(context: context)

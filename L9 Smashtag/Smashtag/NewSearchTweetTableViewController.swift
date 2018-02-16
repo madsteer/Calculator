@@ -20,8 +20,6 @@ class NewSearchTweetTableViewController: TweetTableViewController {
         }
     }
     
-//    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    
     // when the return (i.e. Search) button is pressed in the keyboard
     // we go off to search for the text in the searchTextField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -38,13 +36,6 @@ class NewSearchTweetTableViewController: TweetTableViewController {
         }
     }
     
-//    override func insert(_ newTweets: [Twitter.Tweet]) {
-//        super.insert(newTweets)
-//        container?.performBackgroundTask { [weak self] context in
-//            try? Tweet.newTweets(for: newTweets, using: (self?.searchText)!, in: context)
-//        }
-//    }
-
     private func updateDatabase(with searchText: String) {
         container?.performBackgroundTask { [weak self] context in
             let _ = try? SavedSearch.findOrCreateSavedSearch(matching: searchText, in: context)

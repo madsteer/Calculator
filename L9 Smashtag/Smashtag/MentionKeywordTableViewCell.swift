@@ -12,7 +12,6 @@ class MentionKeywordTableViewCell: UITableViewCell {
 
     @IBOutlet weak var tweetKeyword: UILabel!
     
-    
     var keyword: String? { didSet { updateUI() } }
     
     private func updateUI() {
@@ -28,8 +27,6 @@ class MentionKeywordTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

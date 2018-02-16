@@ -47,14 +47,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
-//    private func insert(_ newTweets: [Twitter.Tweet]) {
-//        //        tweets.insert(newTweets, at:0)
-//        //        tableView.insertSections([0], with: .fade)
-//        container?.performBackgroundTask { [weak self] context in
-//            try? Tweet.newTweets(for: newTweets, using: (self?.searchText)!, in: context)
-//        }
-//    }
-
     // MARK: Updating the Table
     
     // just creates a Twitter.Request
@@ -84,7 +76,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             request.fetchTweets { [weak self] newTweets in      // this is off the main queue
                 DispatchQueue.main.async {                      // so we must dispatch back to main queue
                     if request == self?.lastTwitterRequest {
-//                        self?.insert(newTweets)
                         self?.container?.performBackgroundTask { [weak self] context in
                             try? Tweet.newTweets(for: newTweets, using: (self?.searchText)!, in: context)
                             try? context.save()
@@ -157,11 +148,4 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
         return cell
     }
-    
-    // Added after lecture for REFRESHING
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        // make it a little clearer when each pull from Twitter
-//        // occurs in the table by setting section header titles
-//        return "\(tweets.count-section)"
-//    }
 }

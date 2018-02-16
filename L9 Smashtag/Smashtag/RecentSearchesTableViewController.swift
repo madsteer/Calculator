@@ -70,12 +70,10 @@ class RecentSearchesTableViewController: FetchedResultsTableViewController {
             case "Show Tweets From Saved Search":
                 if let seguedToMvc = segue.destination as? OldSearchTweetTableViewController,
                     let searchTerm = cell.term {
-                    // do stuff
                     seguedToMvc.searchText = searchTerm
                 }
             case "Show Most Popular Mentions":
                 if let seguedToMvc = segue.destination as? PopularMentionsTableViewController {
-//                    seguedToMvc.mention = cell.textLabel?.text
                     seguedToMvc.mention = cell.term
                     seguedToMvc.title = (cell.term ?? "") + ": Popularity"
                 }                
