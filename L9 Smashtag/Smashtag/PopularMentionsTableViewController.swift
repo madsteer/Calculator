@@ -34,11 +34,6 @@ class PopularMentionsTableViewController: FetchedResultsTableViewController {
                 format:"count > 1 AND searchTerm = %@", mention!)
             
             fetchedResultsController = NSFetchedResultsController<Mention>(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "type", cacheName: nil)
-//            do {
-//                try fetchedResultsController?.performFetch()
-//            } catch {
-//                print("fetchedResultsController: \(String(describing: fetchedResultsController)), resulted in \(error)")
-//            }
             try? fetchedResultsController?.performFetch()
             fetchedResultsController?.delegate = self
             tableView.reloadData()
