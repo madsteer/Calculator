@@ -16,12 +16,13 @@ class PopularMentionsTableViewController: FetchedResultsTableViewController {
     
     var mention: String? { didSet{ updateUI() } }
     
-    private var popularityCount: Int? { didSet { tableView.reloadData() } }
-
     private func updateUI() {
-        if let context = container?.viewContext {
+        if let context = container?.viewContext, mention != nil {
             let request: NSFetchRequest<Mention> = Mention.fetchRequest()
             request.sortDescriptors = [NSSortDescriptor(
+                    key: "type",
+                    ascending: true
+                ), NSSortDescriptor(
                     key: "count",
                     ascending: false
                 ),NSSortDescriptor(
@@ -33,47 +34,48 @@ class PopularMentionsTableViewController: FetchedResultsTableViewController {
                 format:"count > 1 AND searchTerm = %@", mention!)
             
             fetchedResultsController = NSFetchedResultsController<Mention>(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "type", cacheName: nil)
+//            do {
+//                try fetchedResultsController?.performFetch()
+//            } catch {
+//                print("fetchedResultsController: \(String(describing: fetchedResultsController)), resulted in \(error)")
+//            }
             try? fetchedResultsController?.performFetch()
             fetchedResultsController?.delegate = self
             tableView.reloadData()
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateUI()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        popularityCount = nil
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        if let frc = fetchedResultsController {
+            return frc.sections!.count
+        }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let context = container?.viewContext, popularityCount == nil {
-            context.perform {
-                if let count = try? context.count(for: Mention.fetchRequest()) {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.popularityCount = count
-                    }
-                }
-            }
+        guard let sections = self.fetchedResultsController?.sections else {
+            fatalError("No sections in fetchedResultsController")
         }
-        return popularityCount ?? 0
+        return sections[section].numberOfObjects
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Popular Mentions Cell", for: indexPath)
-        if let sections = fetchedResultsController?.sections, indexPath.section < sections.count, indexPath.row < sections[indexPath.section].numberOfObjects {
-            if let fetchedMention = fetchedResultsController?.object(at: indexPath) {
-                cell.textLabel?.text = fetchedMention.keyword
-                let mentionsCount = fetchedMention.count
-                cell.detailTextLabel?.text = "\(mentionsCount) tweet\((mentionsCount == 1) ? " don't want to display this" : "s" ) "
-            }
+        
+        if let fetchedMention = fetchedResultsController?.object(at: indexPath) {
+            cell.textLabel?.text = fetchedMention.keyword
+            cell.detailTextLabel?.text = "\(fetchedMention.count) tweet\((fetchedMention.count == 1) ? " don't want to display this" : "s" ) "
         }
         return cell
     }
-
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let sectionInfo = fetchedResultsController?.sections?[section] {
+            return sectionInfo.name
+        }
+        return nil
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             if identifier == "ToMainTweetTableView" {
@@ -83,7 +85,6 @@ class PopularMentionsTableViewController: FetchedResultsTableViewController {
                     if text.hasPrefix("@") { text += " OR from:" + text }
                     ttvc.searchText = text
                 }
-                
             }
         }
     }

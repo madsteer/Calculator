@@ -28,8 +28,7 @@ class Mention: NSManagedObject {
         }
     }
     
-    static func checkMention(for tweet: Tweet, with keyword: String, and type: String, using searchTerm: String, in context: NSManagedObjectContext) throws -> Mention
-    {
+    static func checkMention(for tweet: Tweet, with keyword: String, and type: String, using searchTerm: String, in context: NSManagedObjectContext) throws -> Mention {
         let mention = try findOrCreateMention(with: keyword, and: type, using: searchTerm, in: context)
         
         if let tweetsSet = mention.tweets as? Set<Tweet>, !tweetsSet.contains(tweet) {

@@ -45,14 +45,11 @@ class Tweet: NSManagedObject {
         return persistedTweet
     }
     
-    class func newTweets( for newTweets: [Twitter.Tweet], using searchTerm: String, in context: NSManagedObjectContext) throws
-    {
+    class func newTweets( for newTweets: [Twitter.Tweet], using searchTerm: String, in context: NSManagedObjectContext) throws {
         var newTweetIdentifiers = Set ( newTweets.map {$0.identifier} )
         
         let request: NSFetchRequest<Tweet> = Tweet.fetchRequest()
-        request.predicate = NSPredicate(
-            format: "any mentions.searchTerm contains[c] %@ and unique IN %@",
-            searchTerm, newTweetIdentifiers )
+        request.predicate = NSPredicate(format: "any mentions.searchTerm contains[c] %@ and unique IN %@", searchTerm, newTweetIdentifiers )
         
         let savedTweetIdentifiers = try Set ( context.fetch(request).flatMap({ $0.unique}) )
         
@@ -60,7 +57,7 @@ class Tweet: NSManagedObject {
         print ("-----------number of new items \(newTweetIdentifiers.count)-----")
         
         for newTweetIdentifier in newTweetIdentifiers{
-            if let index = newTweets.index(where: {$0.identifier == newTweetIdentifier}){
+            if let index = newTweets.index(where: {$0.identifier == newTweetIdentifier}) {
                 _ = try? Tweet.findTweetAndCheckMentions(for: newTweets[index], using: searchTerm, in: context)
             }
         }
